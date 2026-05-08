@@ -1,0 +1,1096 @@
+:root {
+  color-scheme: dark;
+  font-family: "JetBrains Mono", "SF Mono", "Cascadia Code", monospace;
+  background: #070a10;
+  color: #e6f1ff;
+  --bg: #070a10;
+  --panel: rgba(12, 19, 30, 0.92);
+  --panel-strong: #101928;
+  --line: rgba(99, 179, 237, 0.2);
+  --text-muted: #8ba3b8;
+  --cyan: #4cc9f0;
+  --mint: #80ffdb;
+  --amber: #ffb703;
+  --danger: #ff5d73;
+  --green: #7bf1a8;
+  --shadow-glow: 0 0 34px rgba(76, 201, 240, 0.18);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-width: 100vw;
+  min-height: 100vh;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 15% 0%, rgba(76, 201, 240, 0.18), transparent 34%),
+    radial-gradient(circle at 82% 10%, rgba(128, 255, 219, 0.12), transparent 30%),
+    linear-gradient(135deg, #070a10 0%, #0d1320 45%, #070a10 100%);
+}
+
+button,
+input,
+textarea {
+  font: inherit;
+}
+
+button {
+  border: 1px solid rgba(76, 201, 240, 0.25);
+  border-radius: 10px;
+  background: rgba(13, 24, 38, 0.86);
+  color: #d9f8ff;
+  padding: 8px 11px;
+  cursor: pointer;
+  transition: transform 140ms ease, border-color 140ms ease, background 140ms ease, box-shadow 140ms ease;
+}
+
+button:hover:not(:disabled) {
+  transform: translateY(-1px);
+  border-color: rgba(128, 255, 219, 0.62);
+  box-shadow: 0 0 22px rgba(76, 201, 240, 0.12);
+}
+
+button:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+input {
+  border: 1px solid rgba(76, 201, 240, 0.2);
+  border-radius: 10px;
+  background: rgba(3, 8, 14, 0.72);
+  color: #e6f1ff;
+  padding: 9px 10px;
+  outline: none;
+}
+
+input:focus {
+  border-color: var(--cyan);
+  box-shadow: 0 0 0 3px rgba(76, 201, 240, 0.12);
+}
+
+.launch {
+  display: grid;
+  min-height: 100vh;
+  place-items: center;
+  padding: 40px;
+}
+
+.launch-card {
+  width: min(760px, 92vw);
+  padding: 44px;
+  border: 1px solid var(--line);
+  border-radius: 28px;
+  background: linear-gradient(145deg, rgba(10, 19, 31, 0.94), rgba(7, 10, 16, 0.82));
+  box-shadow: var(--shadow-glow);
+}
+
+.launch-card h1 {
+  margin: 8px 0 18px;
+  font-size: clamp(38px, 7vw, 78px);
+  line-height: 0.95;
+  letter-spacing: -0.07em;
+}
+
+.launch-card p {
+  max-width: 620px;
+  color: var(--text-muted);
+  line-height: 1.7;
+}
+
+.eyebrow,
+.section-title {
+  color: var(--mint);
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.primary-action,
+.primary-small {
+  background: linear-gradient(135deg, rgba(76, 201, 240, 0.92), rgba(128, 255, 219, 0.86));
+  color: #031019;
+  font-weight: 800;
+}
+
+.app-shell {
+  display: grid;
+  grid-template-rows: 58px minmax(0, 1fr) 282px;
+  height: 100vh;
+}
+
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 18px;
+  border-bottom: 1px solid var(--line);
+  background: rgba(5, 9, 15, 0.84);
+  backdrop-filter: blur(18px);
+}
+
+.topbar > div:first-child {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.branch-pill,
+.conflict-badge {
+  border: 1px solid rgba(128, 255, 219, 0.35);
+  border-radius: 999px;
+  color: var(--mint);
+  padding: 5px 10px;
+  background: rgba(128, 255, 219, 0.08);
+}
+
+.topbar-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.remote-backdrop {
+  position: fixed;
+  z-index: 30;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.28);
+}
+
+.remote-drawer {
+  position: absolute;
+  right: 18px;
+  top: 72px;
+  display: grid;
+  gap: 8px;
+  width: min(430px, calc(100vw - 36px));
+  max-height: calc(100vh - 96px);
+  overflow: auto;
+  padding: 14px;
+  border: 1px solid var(--line);
+  border-radius: 22px;
+  background: rgba(6, 12, 20, 0.98);
+  box-shadow: var(--shadow-glow);
+}
+
+.remote-drawer button {
+  width: 100%;
+  text-align: left;
+}
+
+.remote-drawer-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 4px 4px 10px;
+}
+
+.remote-drawer-header div {
+  display: grid;
+  gap: 4px;
+}
+
+.remote-drawer-header span {
+  color: var(--text-muted);
+  font-size: 12px;
+}
+
+.remote-drawer-header button {
+  width: auto;
+}
+
+.remote-menu-section {
+  display: grid;
+  gap: 6px;
+  padding: 8px;
+  border: 1px solid rgba(76, 201, 240, 0.14);
+  border-radius: 12px;
+  background: rgba(76, 201, 240, 0.05);
+}
+
+.remote-menu-section span {
+  overflow: hidden;
+  color: var(--text-muted);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.remote-form {
+  display: grid;
+  gap: 8px;
+  padding: 8px;
+  border: 1px solid rgba(76, 201, 240, 0.14);
+  border-radius: 12px;
+  background: rgba(0, 0, 0, 0.15);
+}
+
+.remote-form input {
+  width: 100%;
+}
+
+.remote-form code {
+  overflow: hidden;
+  border: 1px solid rgba(128, 255, 219, 0.14);
+  border-radius: 10px;
+  background: rgba(128, 255, 219, 0.07);
+  color: var(--mint);
+  padding: 7px 8px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.remote-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--text-muted);
+  font-size: 12px;
+}
+
+.remote-checkbox input {
+  width: auto;
+}
+
+.form-hint {
+  margin: 0;
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+.form-hint-error {
+  color: #ffd6dc;
+}
+
+.workspace {
+  display: grid;
+  grid-template-columns: 276px minmax(0, 1fr) 420px;
+  min-height: 0;
+}
+
+.sidebar,
+.right-panel,
+.bottom-panel {
+  background: var(--panel);
+  border-color: var(--line);
+}
+
+.sidebar {
+  overflow: auto;
+  border-right: 1px solid var(--line);
+  padding: 16px;
+}
+
+.panel-section {
+  display: grid;
+  gap: 10px;
+  margin-bottom: 22px;
+}
+
+.repo-root {
+  overflow: hidden;
+  color: var(--text-muted);
+  font-size: 12px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.nav-active,
+.danger-nav {
+  border-color: var(--cyan);
+  background: rgba(76, 201, 240, 0.15);
+}
+
+.danger-nav {
+  border-color: rgba(255, 93, 115, 0.65);
+  color: #ffd6dc;
+}
+
+.main-panel {
+  position: relative;
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.right-panel {
+  display: grid;
+  grid-template-rows: minmax(0, 1fr) minmax(0, 1fr);
+  min-height: 0;
+  border-left: 1px solid var(--line);
+}
+
+.bottom-panel {
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) minmax(340px, 0.75fr);
+  min-height: 0;
+  border-top: 1px solid var(--line);
+}
+
+.bottom-left,
+.command-log,
+.inspector-card {
+  min-height: 0;
+  overflow: hidden;
+}
+
+.bottom-left {
+  display: grid;
+  grid-template-rows: minmax(0, 1fr) auto;
+}
+
+.bottom-status {
+  min-height: 0;
+  overflow: hidden;
+}
+
+.git-terminal {
+  display: grid;
+  gap: 8px;
+  padding: 10px 12px;
+  border-top: 1px solid var(--line);
+  background: rgba(4, 9, 16, 0.72);
+}
+
+.terminal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.terminal-header button {
+  padding: 4px 8px;
+  font-size: 11px;
+}
+
+.terminal-header-actions {
+  display: flex;
+  gap: 6px;
+}
+
+.git-terminal label {
+  color: var(--mint);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.terminal-stream {
+  min-height: 92px;
+  max-height: 150px;
+  margin: 0;
+  padding: 10px;
+  border: 1px solid rgba(76, 201, 240, 0.14);
+  border-radius: 12px;
+  background: rgba(0, 0, 0, 0.22);
+  color: #cfefff;
+  overflow: auto;
+  white-space: pre-wrap;
+}
+
+.terminal-command-row,
+.terminal-commit-panel {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 8px;
+}
+
+.terminal-commit-panel {
+  padding: 8px;
+  border: 1px solid rgba(128, 255, 219, 0.18);
+  border-radius: 12px;
+  background: linear-gradient(135deg, rgba(128, 255, 219, 0.08), rgba(76, 201, 240, 0.04));
+}
+
+.terminal-commit-panel button {
+  white-space: nowrap;
+}
+
+.git-terminal span {
+  color: var(--cyan);
+}
+
+.git-terminal p {
+  margin: 0;
+  color: var(--text-muted);
+  font-size: 11px;
+}
+
+.status-panel {
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  height: 100%;
+}
+
+.status-tabs,
+.log-header,
+.inspector-header,
+.conflict-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 10px;
+  border-bottom: 1px solid var(--line);
+}
+
+.status-tabs {
+  justify-content: flex-start;
+}
+
+.tab-active {
+  background: rgba(76, 201, 240, 0.17);
+  border-color: var(--cyan);
+}
+
+.file-list,
+.log-list {
+  height: 100%;
+  overflow: auto;
+  padding: 10px;
+}
+
+.file-item {
+  display: grid;
+  grid-template-columns: 42px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 8px;
+  padding: 8px;
+  border: 1px solid transparent;
+  border-radius: 10px;
+}
+
+.file-item:hover,
+.selected-file {
+  border-color: rgba(76, 201, 240, 0.32);
+  background: rgba(76, 201, 240, 0.08);
+}
+
+.file-path {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.file-actions {
+  display: flex;
+  gap: 6px;
+}
+
+.file-actions button {
+  padding: 4px 7px;
+  font-size: 11px;
+}
+
+.status-code {
+  color: var(--amber);
+}
+
+.status-conflicted {
+  color: var(--danger);
+}
+
+.commit-box {
+  display: grid;
+  gap: 8px;
+  padding: 10px;
+  border-top: 1px solid var(--line);
+  background: rgba(4, 9, 16, 0.42);
+}
+
+.commit-summary,
+.commit-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.commit-summary {
+  justify-content: space-between;
+}
+
+.commit-summary span {
+  color: var(--text-muted);
+  font-size: 12px;
+}
+
+.commit-form {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 8px;
+}
+
+.commit-actions {
+  flex-wrap: wrap;
+}
+
+.commit-actions button {
+  padding: 6px 9px;
+  font-size: 12px;
+}
+
+.command-log {
+  border-left: 1px solid var(--line);
+}
+
+.log-entry {
+  margin-bottom: 10px;
+  padding: 10px;
+  border: 1px solid rgba(76, 201, 240, 0.16);
+  border-radius: 12px;
+  background: rgba(0, 0, 0, 0.16);
+}
+
+.log-failed {
+  border-color: rgba(255, 93, 115, 0.42);
+}
+
+pre {
+  margin: 8px 0 0;
+  overflow: auto;
+  color: #bcd4e6;
+  white-space: pre-wrap;
+}
+
+.muted {
+  color: var(--text-muted);
+}
+
+.inline-error,
+.error-card {
+  margin: 10px;
+  padding: 10px 12px;
+  border: 1px solid rgba(255, 93, 115, 0.5);
+  border-radius: 12px;
+  background: rgba(255, 93, 115, 0.12);
+  color: #ffd7dd;
+}
+
+.danger-button {
+  border-color: rgba(255, 93, 115, 0.45);
+  color: #ffd7dd;
+}
+
+.warning-button {
+  border-color: rgba(255, 183, 3, 0.55);
+  color: #ffe2a1;
+}
+
+.branch-panel {
+  min-height: 0;
+}
+
+.create-branch {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 8px;
+}
+
+.branch-list {
+  display: grid;
+  gap: 6px;
+}
+
+.branch-row {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 8px;
+  overflow: hidden;
+  text-align: left;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.remote-branch {
+  cursor: pointer;
+  padding: 7px 10px;
+  color: var(--text-muted);
+}
+
+.current-branch {
+  border-color: rgba(128, 255, 219, 0.55);
+  color: var(--mint);
+}
+
+.inspector-card {
+  display: grid;
+  grid-template-rows: auto auto minmax(0, 1fr);
+  border-bottom: 1px solid var(--line);
+}
+
+.diff-card {
+  grid-template-rows: auto minmax(0, 1fr);
+}
+
+.empty-state {
+  display: grid;
+  place-content: center;
+  gap: 8px;
+  min-height: 0;
+  padding: 24px;
+  color: var(--text-muted);
+  text-align: center;
+}
+
+.empty-state strong {
+  color: #e6f1ff;
+}
+
+.commit-meta {
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--line);
+}
+
+.commit-meta h3 {
+  margin: 0 0 6px;
+  font-size: 14px;
+}
+
+.commit-meta p {
+  margin: 0;
+  color: var(--text-muted);
+  font-size: 12px;
+}
+
+.graph-shell {
+  position: relative;
+  height: 100%;
+  background:
+    linear-gradient(rgba(76, 201, 240, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(76, 201, 240, 0.03) 1px, transparent 1px),
+    radial-gradient(circle at 50% 15%, rgba(76, 201, 240, 0.14), transparent 42%);
+  background-size: 42px 42px, 42px 42px, auto;
+  background-position: 0 0, 0 0, 0 0, 0 0;
+}
+
+.graph-toolbar {
+  position: absolute;
+  z-index: 5;
+  left: 18px;
+  top: 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: rgba(5, 10, 18, 0.72);
+  backdrop-filter: blur(12px);
+}
+
+.graph-toolbar button {
+  padding: 4px 8px;
+  font-size: 11px;
+}
+
+.graph-help {
+  display: grid;
+  width: 24px;
+  height: 24px;
+  place-items: center;
+  border: 1px solid rgba(76, 201, 240, 0.28);
+  border-radius: 999px;
+  color: var(--cyan);
+  cursor: help;
+}
+
+.lane-label {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 172px;
+  height: 34px;
+  padding: 5px 28px;
+  border: 1px solid color-mix(in srgb, var(--lane-color) 38%, transparent);
+  border-radius: 10px;
+  background: rgba(5, 10, 18, 0.88);
+  box-shadow: 0 0 20px color-mix(in srgb, var(--lane-color) 12%, transparent);
+  color: #dff8ff;
+  pointer-events: none;
+}
+
+.lane-label-line {
+  position: absolute;
+  left: 50%;
+  bottom: -14px;
+  display: block;
+  width: 3px;
+  height: 14px;
+  border-radius: 999px;
+  background: var(--lane-color);
+  transform: translateX(-50%);
+  box-shadow: 0 0 14px var(--lane-color);
+}
+
+.lane-label strong {
+  min-width: 0;
+  overflow: hidden;
+  font-size: 12px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.lane-label em {
+  border-radius: 999px;
+  background: rgba(128, 255, 219, 0.1);
+  color: var(--mint);
+  padding: 2px 5px;
+  font-size: 10px;
+  font-style: normal;
+}
+
+.current-lane-label {
+  border-color: var(--mint);
+  box-shadow: 0 0 28px rgba(128, 255, 219, 0.18);
+}
+
+.branch-rail {
+  width: 3px;
+  border-radius: 999px;
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--rail-color) 10%, transparent),
+    color-mix(in srgb, var(--rail-color) 64%, transparent) 18%,
+    color-mix(in srgb, var(--rail-color) 58%, transparent) 82%,
+    color-mix(in srgb, var(--rail-color) 8%, transparent)
+  );
+  box-shadow: 0 0 18px color-mix(in srgb, var(--rail-color) 18%, transparent);
+  pointer-events: none;
+}
+
+.current-branch-rail {
+  width: 4px;
+  box-shadow: 0 0 28px color-mix(in srgb, var(--rail-color) 30%, transparent);
+}
+
+.commit-node {
+  position: relative;
+  display: grid;
+  grid-template-columns: 18px minmax(0, 1fr);
+  gap: 8px;
+  width: 182px;
+  height: 52px;
+  padding: 8px 9px;
+  border: 1px solid color-mix(in srgb, var(--node-color) 46%, transparent);
+  border-radius: 14px;
+  background: rgba(8, 14, 24, 0.84);
+  box-shadow: 0 0 22px color-mix(in srgb, var(--node-color) 13%, transparent);
+  transition: box-shadow 160ms ease, border-color 160ms ease, background 160ms ease;
+}
+
+.commit-node .react-flow__handle {
+  width: 7px;
+  height: 7px;
+  border: 0;
+  background: transparent;
+  opacity: 0;
+}
+
+.commit-node .react-flow__handle-left {
+  left: 17px;
+  top: 17px;
+  transform: translate(-50%, -50%);
+}
+
+.commit-node .react-flow__handle-right {
+  right: auto;
+  left: 17px;
+  top: 17px;
+  transform: translate(-50%, -50%);
+}
+
+.commit-node .react-flow__handle-top {
+  top: 17px;
+  left: 17px;
+  transform: translate(-50%, -50%);
+}
+
+.commit-node .react-flow__handle-bottom {
+  bottom: auto;
+  top: 17px;
+  left: 17px;
+  transform: translate(-50%, -50%);
+}
+
+.commit-node .react-flow__handle-left-source {
+  left: 17px;
+  top: 17px;
+  transform: translate(-50%, -50%);
+}
+
+.commit-node .react-flow__handle-right-target {
+  right: auto;
+  left: 17px;
+  top: 17px;
+  transform: translate(-50%, -50%);
+}
+
+.commit-node:hover,
+.selected-commit-node {
+  /* Avoid CSS transform here — React Flow positions every node with a
+     transform, and stacking another transform on the same element shifts the
+     edge endpoints away from the rendered handle. Use border + glow instead. */
+  border-color: var(--node-color);
+  background: rgba(12, 22, 36, 0.96);
+  box-shadow: 0 0 36px color-mix(in srgb, var(--node-color) 38%, transparent);
+}
+
+.head-commit-node {
+  border-color: var(--amber);
+  box-shadow: 0 0 42px rgba(255, 183, 3, 0.24);
+}
+
+.current-branch-node {
+  border-color: var(--mint);
+}
+
+.commit-dot {
+  width: 15px;
+  height: 15px;
+  margin-top: 1px;
+  border-radius: 999px;
+  background: var(--node-color);
+  box-shadow: 0 0 18px var(--node-color);
+}
+
+.head-commit-node .commit-dot {
+  background: var(--amber);
+  box-shadow: 0 0 22px var(--amber);
+}
+
+.commit-copy {
+  min-width: 0;
+}
+
+.commit-flags {
+  display: flex;
+  gap: 5px;
+  min-height: 14px;
+  margin-bottom: 2px;
+}
+
+.commit-flags b {
+  border-radius: 999px;
+  background: rgba(255, 183, 3, 0.14);
+  color: var(--amber);
+  padding: 1px 5px;
+  font-size: 8px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.graph-edge-primary {
+  filter: drop-shadow(0 0 6px rgba(76, 201, 240, 0.24));
+}
+
+.graph-edge-merge {
+  filter: drop-shadow(0 0 6px rgba(255, 183, 3, 0.2));
+}
+
+.graph-edge-merge path,
+.graph-edge-merge {
+  stroke-dasharray: 7 7;
+}
+
+.react-flow__edge.animated path {
+  animation-duration: 1.8s;
+}
+
+.commit-copy strong,
+.commit-copy span {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.commit-copy strong {
+  font-size: 13px;
+  max-width: 142px;
+}
+
+.commit-copy span {
+  color: var(--text-muted);
+  font-size: 11px;
+}
+
+.commit-refs {
+  position: absolute;
+  z-index: 4;
+  left: 28px;
+  top: calc(100% + 7px);
+  display: none;
+  flex-wrap: nowrap;
+  gap: 4px;
+  max-width: 240px;
+  padding: 5px;
+  border: 1px solid rgba(128, 255, 219, 0.16);
+  border-radius: 999px;
+  background: rgba(5, 10, 18, 0.94);
+  box-shadow: 0 0 18px rgba(76, 201, 240, 0.12);
+  overflow: visible;
+}
+
+.commit-node:hover .commit-refs,
+.selected-commit-node .commit-refs {
+  display: flex;
+}
+
+.commit-refs em {
+  max-width: 92px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: rgba(128, 255, 219, 0.11);
+  color: var(--mint);
+  padding: 3px 7px;
+  font-size: 10px;
+  font-style: normal;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.graph-menu {
+  position: fixed;
+  z-index: 20;
+  display: grid;
+  gap: 6px;
+  min-width: 180px;
+  padding: 8px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: rgba(6, 12, 20, 0.96);
+  box-shadow: var(--shadow-glow);
+}
+
+.graph-menu button {
+  text-align: left;
+}
+
+.conflict-shell {
+  display: grid;
+  grid-template-columns: 260px minmax(0, 1fr);
+  height: 100%;
+}
+
+.conflict-files {
+  overflow: auto;
+  padding: 16px;
+  border-right: 1px solid var(--line);
+  background: rgba(5, 10, 18, 0.55);
+}
+
+.conflict-files button {
+  display: block;
+  width: 100%;
+  margin-bottom: 8px;
+  text-align: left;
+}
+
+.selected-conflict {
+  border-color: var(--danger);
+  background: rgba(255, 93, 115, 0.11);
+}
+
+.conflict-main {
+  display: grid;
+  grid-template-rows: auto auto auto minmax(0, 1fr);
+  min-width: 0;
+  min-height: 0;
+}
+
+.conflict-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 18px;
+  border-bottom: 1px solid var(--line);
+}
+
+.conflict-header h2 {
+  margin: 0;
+}
+
+.conflict-note {
+  padding: 10px 18px;
+  border-bottom: 1px solid rgba(255, 183, 3, 0.18);
+  color: #ffe2a1;
+  background: rgba(255, 183, 3, 0.07);
+}
+
+.conflict-actions {
+  justify-content: flex-start;
+  flex-wrap: wrap;
+}
+
+.conflict-editor-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-rows: repeat(2, minmax(0, 1fr));
+  min-height: 0;
+}
+
+.conflict-pane {
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+  min-width: 0;
+  min-height: 0;
+  border-right: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+
+.result-pane {
+  border-color: rgba(128, 255, 219, 0.28);
+}
+
+.pane-title {
+  padding: 8px 10px;
+  color: var(--mint);
+  background: rgba(4, 9, 16, 0.72);
+  border-bottom: 1px solid var(--line);
+}
+
+.empty-conflict {
+  display: grid;
+  place-items: center;
+  color: var(--text-muted);
+}
+
+.repo-files {
+  min-height: 160px;
+}
+
+.repo-file-list {
+  display: grid;
+  gap: 6px;
+  height: 100%;
+  overflow: auto;
+}
+
+.repo-file {
+  overflow: hidden;
+  text-align: left;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.selected-repo-file {
+  border-color: rgba(128, 255, 219, 0.58);
+  color: var(--mint);
+}
+
+@media (max-width: 1180px) {
+  .workspace {
+    grid-template-columns: 230px minmax(0, 1fr);
+  }
+
+  .right-panel {
+    display: none;
+  }
+}
