@@ -34,6 +34,14 @@ function assertSafeMergeTarget(target: string): string {
   return trimmed;
 }
 
+function assertSafeBranchName(name: string): string {
+  const trimmed = name.trim();
+  if (!trimmed || trimmed.includes("\0") || trimmed.startsWith("-")) {
+    throw new Error("Invalid branch name.");
+  }
+  return trimmed;
+}
+
 export async function mergeTarget(repoRoot: string, target: string) {
   // --no-edit keeps the desktop merge non-interactive while preserving Git's
   // generated merge message when a merge commit is required.
@@ -65,5 +73,5 @@ export async function pull(repoRoot: string) {
 }
 
 export async function push(repoRoot: string, branchName?: string) {
-  return branchName ? runGit(repoRoot, ["push", "-u", "origin", branchName]) : runGit(repoRoot, ["push"]);
+  return branchName ? runGit(repoRoot, ["push", "-u", "origin", assertSafeBranchName(branchName)]) : runGit(repoRoot, ["push"]);
 }

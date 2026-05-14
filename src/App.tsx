@@ -286,7 +286,13 @@ export function App() {
           setError(response.error ?? "Pull failed.");
         }
       }}
-      onPush={() => runOperation("git push", () => window.gitVisualizer.push(snapshot.repo.root))}
+      onPush={() => {
+        const currentBranch = snapshot.branches.find((branch) => branch.isCurrent && !branch.isRemote);
+        const branchName = currentBranch?.name ?? snapshot.repo.currentBranch;
+        const hasUpstream = Boolean(currentBranch?.upstream);
+        const title = hasUpstream ? "git push" : `git push -u origin ${branchName}`;
+        void runOperation(title, () => window.gitVisualizer.push(snapshot.repo.root, hasUpstream ? undefined : branchName));
+      }}
       onAddRemote={(name, url) => runOperation(`git remote add ${name}`, () => window.gitVisualizer.addRemote(snapshot.repo.root, name, url))}
       onForkSetup={(originUrl, pushCurrentBranch) => {
         setBusy(true);
