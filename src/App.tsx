@@ -192,6 +192,11 @@ export function App() {
     setRepositoryFileContent(response.ok && response.data ? response.data.content : response.error ?? "Unable to read file.");
   };
 
+  const clearRepositoryFile = () => {
+    setSelectedRepositoryFile(undefined);
+    setRepositoryFileContent("");
+  };
+
   const selectCommit = async (commit: CommitInfo) => {
     if (!snapshot) return;
     setSelectedCommit(commit);
@@ -364,6 +369,7 @@ export function App() {
             diffMode={diffMode}
             diffText={diffText}
             onSelectRepositoryFile={selectRepositoryFile}
+            onClearRepositoryFile={clearRepositoryFile}
           />
           <CommitDetail commit={selectedCommit} detail={commitDetail} />
         </>

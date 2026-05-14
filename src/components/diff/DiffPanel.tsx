@@ -11,6 +11,7 @@ interface DiffPanelProps {
   diffMode: "working" | "staged";
   diffText: string;
   onSelectRepositoryFile: (path: string) => void;
+  onClearRepositoryFile: () => void;
 }
 
 export function DiffPanel({
@@ -20,14 +21,22 @@ export function DiffPanel({
   fileContent,
   diffMode,
   diffText,
-  onSelectRepositoryFile
+  onSelectRepositoryFile,
+  onClearRepositoryFile
 }: DiffPanelProps) {
   const title = selectedFile ? `${diffMode}: ${selectedFile.path}` : selectedRepositoryFile ? `HEAD file: ${selectedRepositoryFile}` : "No file selected";
 
   return (
     <section className="inspector-card diff-card">
       <div className="inspector-header">
-        <strong>{selectedFile ? "Diff" : "File"}</strong>
+        <div className="inspector-title">
+          <strong>{selectedFile ? "Diff" : "File"}</strong>
+          {selectedRepositoryFile && !selectedFile ? (
+            <button type="button" className="inspector-back" onClick={onClearRepositoryFile}>
+              Back to files
+            </button>
+          ) : null}
+        </div>
         <span>{title}</span>
       </div>
       {selectedFile ? (

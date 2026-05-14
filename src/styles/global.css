@@ -123,6 +123,8 @@ input:focus {
 }
 
 .topbar {
+  position: relative;
+  z-index: 1000;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -154,13 +156,14 @@ input:focus {
 
 .remote-backdrop {
   position: fixed;
-  z-index: 30;
+  z-index: 2000;
   inset: 0;
   background: rgba(0, 0, 0, 0.28);
 }
 
 .remote-drawer {
   position: absolute;
+  z-index: 2001;
   right: 18px;
   top: 72px;
   display: grid;
@@ -436,6 +439,28 @@ input:focus {
   gap: 8px;
   padding: 10px;
   border-bottom: 1px solid var(--line);
+}
+
+.inspector-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+
+.inspector-back {
+  padding: 3px 7px;
+  border-radius: 999px;
+  color: var(--mint);
+  font-size: 10px;
+}
+
+.inspector-header > span {
+  min-width: 0;
+  overflow: hidden;
+  color: #d8e7f8;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .status-tabs {
@@ -1063,21 +1088,58 @@ pre {
 }
 
 .repo-files {
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
   min-height: 160px;
+  margin: 0;
+  padding: 12px;
+  border-bottom: 1px solid var(--line);
 }
 
 .repo-file-list {
   display: grid;
-  gap: 6px;
+  align-content: start;
+  gap: 7px;
   height: 100%;
   overflow: auto;
 }
 
 .repo-file {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  min-height: 36px;
   overflow: hidden;
+  padding: 8px 11px;
+  border-radius: 9px;
+  font-family: "JetBrains Mono", "SF Mono", "Cascadia Code", monospace;
+  font-size: 13px;
+  line-height: 1;
   text-align: left;
+}
+
+.repo-file:hover:not(:disabled) {
+  transform: none;
+  box-shadow: none;
+}
+
+.repo-file-name,
+.repo-file-dir {
+  overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+.repo-file-name {
+  flex: 0 1 auto;
+  color: #e6f1ff;
+}
+
+.repo-file-dir {
+  flex: 1 1 auto;
+  color: var(--text-muted);
+  font-size: 11px;
 }
 
 .selected-repo-file {
