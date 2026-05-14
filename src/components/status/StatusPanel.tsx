@@ -1,7 +1,6 @@
 import { useState } from "react";
 import type { FileStatus, StatusSummary } from "../../types/git";
 import { FileStatusItem } from "./FileStatusItem";
-import { CommitForm } from "../commit/CommitForm";
 
 interface StatusPanelProps {
   status: StatusSummary;
@@ -16,6 +15,9 @@ interface StatusPanelProps {
 }
 
 export function StatusPanel({ status, selectedPath, onSelect, onStage, onUnstage, onDiscard, onStageAll, onCommit, onStageAllAndCommit }: StatusPanelProps) {
+  void onStageAll;
+  void onCommit;
+  void onStageAllAndCommit;
   const [tab, setTab] = useState<"changes" | "staged">("changes");
   const workingFiles = [...status.unstaged, ...status.untracked, ...status.conflicted];
   const files = tab === "staged" ? status.staged : workingFiles;
@@ -45,14 +47,6 @@ export function StatusPanel({ status, selectedPath, onSelect, onStage, onUnstage
           />
         ))}
       </div>
-      <CommitForm
-        stagedCount={status.staged.length}
-        changedCount={workingFiles.length}
-        conflictCount={status.conflicted.length}
-        onStageAll={onStageAll}
-        onCommit={onCommit}
-        onStageAllAndCommit={onStageAllAndCommit}
-      />
     </section>
   );
 }
